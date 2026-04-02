@@ -35,8 +35,8 @@ stripe==11.4.1
 telnyx==2.1.3
 
 # LiveKit
-livekit-agents==0.10.3
-livekit-plugins-xai==0.1.0
+livekit-agents==1.5.1
+livekit-plugins-xai==1.5.1
 
 # Testing
 pytest==8.3.4

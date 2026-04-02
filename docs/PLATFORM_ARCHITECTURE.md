@@ -207,6 +207,38 @@ ARQ task queue persistence. Tracks scheduled reminders, follow-ups, etc.
 | created_at | TIMESTAMP | |
 | updated_at | TIMESTAMP | |
 
+### business_lines (virtual business line)
+
+| Column | Type | Notes |
+|--------|------|-------|
+| id | UUID (PK) | |
+| org_id | UUID (FK) | |
+| telnyx_number_id | VARCHAR | Telnyx number resource ID |
+| number | VARCHAR | E.164 format |
+| forward_to | VARCHAR | E.164 number to forward calls to |
+| forwarding_enabled | BOOLEAN | |
+| business_hours | JSONB | Schedule config for forwarding |
+| whisper_enabled | BOOLEAN | Play whisper to recipient before connecting |
+| voicemail_enabled | BOOLEAN | |
+| spam_filter_enabled | BOOLEAN | |
+| created_at | TIMESTAMP | |
+| updated_at | TIMESTAMP | |
+
+### voicemails (virtual business line)
+
+| Column | Type | Notes |
+|--------|------|-------|
+| id | UUID (PK) | |
+| org_id | UUID (FK) | |
+| business_line_id | UUID (FK) | |
+| caller_number | VARCHAR | |
+| recording_url | VARCHAR | |
+| transcript | TEXT | |
+| duration_seconds | INTEGER | |
+| is_read | BOOLEAN | |
+| called_at | TIMESTAMP | |
+| created_at | TIMESTAMP | Append-only log — no updated_at |
+
 ---
 
 ## 4. API Endpoints
@@ -244,6 +276,16 @@ ARQ task queue persistence. Tracks scheduled reminders, follow-ups, etc.
 - GET /agents/{id}/calls
 - GET /calls/{id}
 - GET /organizations/{id}/calls
+
+### Virtual Business Line
+- POST /business-lines/provision — buy number + configure Telnyx + save to DB
+- GET /business-lines/{id}
+- PUT /business-lines/{id}
+- DELETE /business-lines/{id}
+- GET /organizations/{id}/business-lines
+- GET /business-lines/{id}/voicemails
+- GET /voicemails/{id}
+- PUT /voicemails/{id}/read — mark voicemail as read
 
 ### Webhooks (internal)
 - POST /webhooks/livekit — signature verified

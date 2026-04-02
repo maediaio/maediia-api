@@ -45,6 +45,11 @@ class Settings(BaseSettings):
     # HIPAA
     HIPAA_ENCRYPTION_KEY: str = ""
 
+    @property
+    def DATABASE_URL_SYNC(self) -> str:
+        """Synchronous DB URL for Alembic (psycopg2 driver)."""
+        return str(self.DATABASE_URL).replace("postgresql+asyncpg://", "postgresql://")
+
     @field_validator("CORS_ORIGINS")
     @classmethod
     def parse_cors_origins(cls, v: str) -> List[str]:
