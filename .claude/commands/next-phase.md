@@ -1,44 +1,25 @@
 # /next-phase
 
-## Purpose
-Show what to build next based on current phase.
+Show what to build next.
 
-## Usage
-```
-@next-phase
-```
+## Instructions
 
-## Phase Overview
+1. Read @PROGRESS.md for current status
+2. Read @CLAUDE.md for the build phase order
+3. Identify the next incomplete step
+4. Read @docs/PLATFORM_ARCHITECTURE.md for the relevant section
+5. Output clearly:
+   - What to build next
+   - Which files to create or modify
+   - The verification criteria (how to confirm it works)
 
-| Phase | Name | Status |
-|-------|------|--------|
-| 0 | Foundation | 🚧 In Progress |
-| 1 | Core API Skeleton | ⏳ Not Started |
-| 2 | Authentication System | ⏳ Not Started |
-| 3 | Voice Reception Contract | ⏳ Not Started |
+## Output Format
 
-## Current Phase: Foundation (0)
+Next step: [step name]
+Phase: [phase name]
 
-### Ready to Start
-1. Create `README.md`
-2. Create `.env.example`
-3. Create `requirements.txt`
-4. Populate `docs/` with architecture docs
+Files to create/modify:
+- [file path] — [what to do]
 
-### Prerequisites for Phase 1
-- [ ] All Phase 0 items complete
-- [ ] Docker Compose configured
-- [ ] Basic FastAPI dependencies listed
-
-## Phase 1 Preview: Core API Skeleton
-
-When you're ready:
-
-1. **App Factory** — `app/main.py` with create_app()
-2. **Health Endpoint** — `GET /health` returning status
-3. **Database Setup** — SQLAlchemy async engine + session
-4. **Config Management** — Pydantic Settings with .env
-5. **Logging** — Structured logging setup
-6. **Docker** — docker-compose.yml for local dev
-
-Run `@next-phase` anytime to see this again.
+Verification:
+- [how to confirm this step is complete]
