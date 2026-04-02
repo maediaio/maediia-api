@@ -8,8 +8,8 @@
 
 | Step | Status | Notes |
 |------|--------|-------|
-| Database schema (models + migration) | ⬜ Not Started | |
-| FastAPI core (scaffold, auth, CRUD routers) | 🔄 In Progress | main.py, config.py, security.py scaffolded — routers not built |
+| Database schema (models + migration) | ✅ Complete | 14 models, 4 migrations (initial + business_lines/voicemails + api_keys/audit_logs) |
+| FastAPI core (scaffold, auth, CRUD routers) | ✅ Complete | 9 routers, 30 endpoints, schemas, audit service, ApiKey model |
 | Redis + ARQ setup | ⬜ Not Started | |
 | Stripe integration | ⬜ Not Started | |
 | Telnyx integration | ⬜ Not Started | |
@@ -39,11 +39,13 @@
 
 ## Issues
 
-- requirements.txt versions need verification against latest compatible releases
-- Redis session service stub in security.py needs implementation in Phase 0 Step 3
+- Redis session service stub in security.py needs implementation in Phase 0 Step 3 (auth endpoints return 401 until then)
+- Telnyx/LiveKit integration stubs return 501 — implemented in Step 5 and Part 1 respectively
+- Knowledge base endpoints return 501 — implemented in Part 2 (xAI Collections)
+- Webhook signature verification stubs — crypto implemented when provider secrets are set
 
 ## Last Session
 
 Date: 2026-04-02
-Work done: Replaced all Flux placeholder files with correct architecture docs and conventions
-Next: Phase 0 Step 1 — Database schema (all SQLAlchemy models + Alembic migration)
+Work done: Phase 0 Steps 1 and 2 — all models, migrations, schemas, routers, audit logging. Added Virtual Business Line feature (business_lines + voicemails models + endpoints).
+Next: Phase 0 Step 3 — Redis + ARQ (sessions, task queue, worker)
