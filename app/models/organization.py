@@ -15,6 +15,8 @@ class Organization(Base):
     plan = Column(String, nullable=False, default="starter")
     compliance_tier = Column(String, nullable=False, default="standard")  # 'standard' or 'hipaa'
     sms_enabled = Column(Boolean, nullable=False, default=False)
+    stripe_customer_id = Column(String, nullable=True)
+    stripe_subscription_id = Column(String, nullable=True)
 
     users = relationship("User", back_populates="organization")
     agents = relationship("Agent", back_populates="organization")
@@ -26,3 +28,4 @@ class Organization(Base):
     api_keys = relationship("ApiKey", back_populates="organization")
     sms_logs = relationship("SmsLog", back_populates="organization")
     scheduled_tasks = relationship("ScheduledTask", back_populates="organization")
+    voicemails = relationship("Voicemail", back_populates="organization")
