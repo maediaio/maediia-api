@@ -1,90 +1,49 @@
-# PROGRESS.md — Build Progress Tracker
+# MAEDIIA Build Progress
 
-> Session-by-session build log. Update after every significant change.
-
----
-
-## Phase 0: Foundation ✅ COMPLETE
-
-**Goal:** Project structure, tooling, and conventions in place.
-
-### Completed
-- [x] Directory structure created
-- [x] CLAUDE.md project memory
-- [x] PROGRESS.md tracker
-- [x] `.claude/rules/` scaffolding (4 modules)
-- [x] `.claude/commands/` scaffolding (3 commands)
-- [x] `docs/` directory structure (3 reference docs)
-- [x] `README.md` with setup instructions
-- [x] `.env.example` with all required vars
-- [x] `requirements.txt` with base dependencies
-- [x] Modular rules (conventions, database, api-design, testing)
-- [x] App structure with FastAPI factory pattern
-- [x] Database configuration (SQLAlchemy async)
-- [x] Security utilities (JWT, bcrypt)
-- [x] Alembic migration setup
-- [x] Test suite scaffolding
-- [x] `.gitignore` for Python project
-
-### In Progress
-- None
-
-### Blockers
-- None
+> Updated at end of every session using /progress-update
 
 ---
 
-## Phase 1: Core API Skeleton
+## Phase 0: Platform Spine
 
-**Goal:** FastAPI app boots, health endpoint works, database connects.
+| Step | Status | Notes |
+|------|--------|-------|
+| Database schema (models + migration) | ⬜ Not Started | |
+| FastAPI core (scaffold, auth, CRUD routers) | 🔄 In Progress | main.py, config.py, security.py scaffolded — routers not built |
+| Redis + ARQ setup | ⬜ Not Started | |
+| Stripe integration | ⬜ Not Started | |
+| Telnyx integration | ⬜ Not Started | |
+| Data migration (JSON → Postgres) | ⬜ Not Started | |
+| Nginx + deployment (api.maediia.com live) | ⬜ Not Started | |
 
-### Planned
-- [ ] FastAPI app factory
-- [ ] Health check endpoint
-- [ ] Database connection + SQLAlchemy setup
-- [ ] Configuration management (Pydantic Settings)
-- [ ] Logging setup
-- [ ] Docker Compose for local dev
+## Voice Reception
 
----
+| Step | Status | Notes |
+|------|--------|-------|
+| Part 1: Single agent POC | ⬜ Not Started | |
+| Part 2: Knowledge base (xAI Collections) | ⬜ Not Started | |
+| Part 3: Multi-tenant routing | ⬜ Not Started | |
+| Part 4: Voice API + post-call automation | ⬜ Not Started | |
+| Part 5: Dashboard frontend | ⬜ Not Started | |
+| Part 6: Website voice widget | ⬜ Not Started | |
+| Part 7: Production hardening | ⬜ Not Started | |
 
-## Phase 2: Authentication System
+## Decisions
 
-**Goal:** JWT auth with login, refresh, logout.
+- Auth: session cookies (dashboard users) + API keys (agent workers) — NOT JWT
+- No API versioning (/api/v1 removed) — flat routing
+- LiveKit Cloud managed (not self-hosted)
+- Telnyx replacing Twilio
+- xAI Grok Voice Agent API for voice
+- Single shared PostgreSQL DB for all apps
 
-### Planned
-- [ ] User model
-- [ ] Password hashing (bcrypt)
-- [ ] JWT generation/validation
-- [ ] Login endpoint
-- [ ] Refresh token endpoint
-- [ ] Logout endpoint
-- [ ] Protected route decorator
+## Issues
 
----
+- requirements.txt versions need verification against latest compatible releases
+- Redis session service stub in security.py needs implementation in Phase 0 Step 3
 
-## Phase 3: Voice Reception Contract
+## Last Session
 
-**Goal:** Implement the voice reception API per `docs/VOICE_CONTRACT.md`.
-
-### Planned
-- [ ] WebSocket connection handling
-- [ ] Session management
-- [ ] STT/TTS integration hooks
-- [ ] Business configuration endpoints
-- [ ] Call logging & analytics
-
----
-
-## Build Stats
-
-| Metric | Value |
-|--------|-------|
-| Current Phase | 0 |
-| Completion | 100% |
-| Last Session | 2026-03-31 |
-| Blockers | 0 |
-
----
-
-*Use `/progress-update` to update this file.*
+Date: 2026-04-02
+Work done: Replaced all Flux placeholder files with correct architecture docs and conventions
+Next: Phase 0 Step 1 — Database schema (all SQLAlchemy models + Alembic migration)
