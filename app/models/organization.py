@@ -23,3 +23,4 @@ class Organization(Base):
     services = relationship("Service", back_populates="organization")
     appointments = relationship("Appointment", back_populates="organization")
     business_lines = relationship("BusinessLine", back_populates="organization")
+    api_keys = relationship("ApiKey", back_populates="organization")

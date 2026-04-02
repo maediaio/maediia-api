@@ -11,6 +11,8 @@ from app.models.service import Service
 from app.models.appointment import Appointment
 from app.models.business_line import BusinessLine
 from app.models.voicemail import Voicemail
+from app.models.api_key import ApiKey
+from app.models.audit_log import AuditLog
 
 __all__ = [
     "Organization",
@@ -25,4 +27,6 @@ __all__ = [
     "Appointment",
     "BusinessLine",
     "Voicemail",
+    "ApiKey",
+    "AuditLog",
 ]
