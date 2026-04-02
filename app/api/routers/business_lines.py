@@ -19,6 +19,7 @@ from app.schemas.business_line import (
 from app.schemas.voicemail import VoicemailResponse
 from app.schemas import PaginatedResponse
 from app.services.audit import audit_log
+from app.services import telnyx_service
 
 router = APIRouter()
 
@@ -41,11 +42,11 @@ async def provision_business_line(
     if existing.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Number already provisioned")
 
-    # TODO: purchase number from Telnyx, configure connection ID
-    # telnyx_number_id = await telnyx_service.purchase_number(payload.number)
+    telnyx_number_id = await telnyx_service.purchase_number(payload.number)
 
     line = BusinessLine(
         org_id=current_user.org_id,
+        telnyx_number_id=telnyx_number_id,
         number=payload.number,
         forward_to=payload.forward_to,
         forwarding_enabled=payload.forwarding_enabled,
@@ -149,7 +150,8 @@ async def delete_business_line(
     if not line:
         raise HTTPException(status_code=404, detail="Business line not found")
 
-    # TODO: release number from Telnyx
+    if line.telnyx_number_id:
+        await telnyx_service.release_number(line.telnyx_number_id)
 
     await audit_log(
         db,

@@ -112,13 +112,9 @@ async def get_api_key(
 
 
 async def get_user_id_from_session(session_token: str) -> Optional[str]:
-    """
-    Look up user_id from session token in Redis.
-    Placeholder — implement when Redis session service is built in Phase 0 Step 3.
-    """
-    # TODO: implement Redis lookup
-    # redis_client.get(f"session:{session_token}") -> user_id
-    return None
+    """Look up user_id from session token in Redis."""
+    from app.services import session as session_service
+    return await session_service.get_user_id(session_token)
 
 
 def require_roles(*roles: str):

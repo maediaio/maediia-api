@@ -1,8 +1,18 @@
 """FastAPI application factory."""
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api.router import api_router
+from app.services import redis as redis_service
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Manage application startup and shutdown."""
+    await redis_service.connect()
+    yield
+    await redis_service.disconnect()
 
 
 def create_app() -> FastAPI:
@@ -12,6 +22,7 @@ def create_app() -> FastAPI:
         description="MAEDIIA Platform API — api.maediia.com",
         version="1.0.0",
         debug=settings.DEBUG,
+        lifespan=lifespan,
     )
 
     # CORS middleware

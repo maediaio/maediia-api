@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     # Telnyx
     TELNYX_API_KEY: str = ""
     TELNYX_WEBHOOK_SECRET: str = ""
+    TELNYX_SIP_CONNECTION_ID: str = ""  # SIP connection for voice agent numbers
 
     # Stripe
     STRIPE_SECRET_KEY: str = ""

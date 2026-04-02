@@ -17,6 +17,7 @@ from app.schemas.phone_number import (
     PhoneNumberSearchRequest,
 )
 from app.services.audit import audit_log
+from app.services import telnyx_service
 
 router = APIRouter()
 
@@ -31,8 +32,12 @@ async def search_phone_numbers(
     if current_user.role not in ("admin", "sales"):
         raise HTTPException(status_code=403, detail="Insufficient permissions")
 
-    # TODO: call Telnyx Numbers API to search available numbers
-    raise HTTPException(status_code=501, detail="Telnyx number search not yet implemented")
+    results = await telnyx_service.search_numbers(
+        country_code=payload.country_code,
+        area_code=payload.area_code,
+        limit=payload.limit,
+    )
+    return results
 
 
 @router.post("/phone-numbers/provision", response_model=PhoneNumberResponse, status_code=201)
@@ -56,16 +61,17 @@ async def provision_phone_number(
     if not agent_result.scalar_one_or_none():
         raise HTTPException(status_code=404, detail="Agent not found")
 
-    # TODO: purchase number from Telnyx, create SIP trunk connection, create LiveKit dispatch rule
-    # telnyx_connection_id = await telnyx_service.provision_number(payload.number)
-    # livekit_dispatch_rule_id = await livekit_service.create_dispatch_rule(agent_id)
+    telnyx_number_id = None
+    if payload.provider == "telnyx":
+        telnyx_number_id = await telnyx_service.purchase_number(payload.number)
 
     phone = PhoneNumber(
         agent_id=payload.agent_id,
         number=payload.number,
         provider=payload.provider,
         sms_enabled=payload.sms_enabled,
-        # telnyx_connection_id and livekit_dispatch_rule_id set after external calls above
+        telnyx_connection_id=telnyx_number_id,
+        # livekit_dispatch_rule_id set in Part 1 when LiveKit integration is built
     )
     db.add(phone)
 
@@ -107,7 +113,9 @@ async def delete_phone_number(
     if not phone:
         raise HTTPException(status_code=404, detail="Phone number not found")
 
-    # TODO: release number from Telnyx, remove dispatch rule from LiveKit
+    if phone.provider == "telnyx" and phone.telnyx_connection_id:
+        await telnyx_service.release_number(phone.telnyx_connection_id)
+    # livekit dispatch rule removal handled in Part 1
 
     await audit_log(
         db,

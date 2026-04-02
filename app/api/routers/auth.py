@@ -24,6 +24,7 @@ from app.schemas.auth import (
     UserResponse,
 )
 from app.services.audit import audit_log
+from app.services import session as session_service
 
 router = APIRouter()
 
@@ -45,9 +46,7 @@ async def login(
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     token = generate_session_token()
-
-    # Store session in Redis — implemented in Phase 0 Step 3
-    # await session_service.create(token, str(user.id))
+    await session_service.create(token, user.id)
 
     await audit_log(
         db,
@@ -78,8 +77,9 @@ async def logout(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    # Delete session from Redis — implemented in Phase 0 Step 3
-    # await session_service.delete(session_token)
+    session_token = request.cookies.get(SESSION_COOKIE)
+    if session_token:
+        await session_service.delete(session_token)
 
     await audit_log(
         db,
