@@ -75,6 +75,7 @@ async def provision_phone_number(
         resource_type="phone_number",
         org_id=current_user.org_id,
         user_id=current_user.id,
+        resource_id=phone.id,
         ip_address=request.client.host if request.client else None,
     )
 

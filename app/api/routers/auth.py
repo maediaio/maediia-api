@@ -21,7 +21,6 @@ from app.schemas.auth import (
     ApiKeyCreatedResponse,
     ApiKeyResponse,
     LoginRequest,
-    SessionResponse,
     UserResponse,
 )
 from app.services.audit import audit_log
@@ -35,6 +34,7 @@ SESSION_MAX_AGE = 7 * 24 * 60 * 60  # 7 days in seconds
 @router.post("/auth/login", response_model=UserResponse)
 async def login(
     credentials: LoginRequest,
+    request: Request,
     response: Response,
     db: AsyncSession = Depends(get_db),
 ):
@@ -48,6 +48,16 @@ async def login(
 
     # Store session in Redis — implemented in Phase 0 Step 3
     # await session_service.create(token, str(user.id))
+
+    await audit_log(
+        db,
+        action="login",
+        resource_type="session",
+        org_id=user.org_id,
+        user_id=user.id,
+        ip_address=request.client.host if request.client else None,
+    )
+    await db.commit()
 
     response.set_cookie(
         key=SESSION_COOKIE,
@@ -63,11 +73,23 @@ async def login(
 
 @router.post("/auth/logout", status_code=204)
 async def logout(
+    request: Request,
     response: Response,
     current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
 ):
     # Delete session from Redis — implemented in Phase 0 Step 3
     # await session_service.delete(session_token)
+
+    await audit_log(
+        db,
+        action="logout",
+        resource_type="session",
+        org_id=current_user.org_id,
+        user_id=current_user.id,
+        ip_address=request.client.host if request.client else None,
+    )
+    await db.commit()
 
     response.delete_cookie(key=SESSION_COOKIE)
 
@@ -102,6 +124,7 @@ async def create_api_key(
         resource_type="api_key",
         org_id=current_user.org_id,
         user_id=current_user.id,
+        resource_id=key_record.id,
         ip_address=request.client.host if request.client else None,
     )
 

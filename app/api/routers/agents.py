@@ -13,7 +13,6 @@ from app.models.agent import Agent
 from app.models.api_key import ApiKey
 from app.models.user import User
 from app.schemas.agent import AgentCreate, AgentResponse, AgentUpdate
-from app.schemas import PaginatedResponse
 from app.services.audit import audit_log
 
 router = APIRouter()
@@ -54,6 +53,7 @@ async def create_agent(
         resource_type="agent",
         org_id=current_user.org_id,
         user_id=current_user.id,
+        resource_id=agent.id,
         ip_address=request.client.host if request.client else None,
     )
 

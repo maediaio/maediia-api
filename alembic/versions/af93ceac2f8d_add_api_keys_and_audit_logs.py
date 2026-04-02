@@ -43,7 +43,6 @@ def upgrade() -> None:
         sa.Column("resource_id", sa.String, nullable=True),
         sa.Column("ip_address", sa.String, nullable=True),
         sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
     )
 
 

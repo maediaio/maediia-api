@@ -4,10 +4,10 @@ from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, T
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from app.db.base import Base
+from app.db.base import ReadOnlyBase
 
 
-class Voicemail(Base):
+class Voicemail(ReadOnlyBase):
     __tablename__ = "voicemails"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

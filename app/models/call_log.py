@@ -4,10 +4,10 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import relationship
 
-from app.db.base import Base
+from app.db.base import ReadOnlyBase
 
 
-class CallLog(Base):
+class CallLog(ReadOnlyBase):
     __tablename__ = "call_logs"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

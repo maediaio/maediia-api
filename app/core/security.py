@@ -1,7 +1,7 @@
 """Security utilities — session cookies and API key authentication."""
 import secrets
 import hashlib
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, Request, Security

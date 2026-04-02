@@ -62,6 +62,7 @@ async def provision_business_line(
         resource_type="business_line",
         org_id=current_user.org_id,
         user_id=current_user.id,
+        resource_id=line.id,
         ip_address=request.client.host if request.client else None,
     )
 

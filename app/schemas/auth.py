@@ -1,8 +1,7 @@
 """Auth schemas."""
 from datetime import datetime
-from typing import Optional
 from uuid import UUID
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 
 class LoginRequest(BaseModel):
@@ -18,10 +17,6 @@ class UserResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
-
-
-class SessionResponse(BaseModel):
-    user: UserResponse
 
 
 class ApiKeyCreate(BaseModel):

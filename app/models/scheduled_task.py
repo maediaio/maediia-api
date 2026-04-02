@@ -2,6 +2,7 @@
 import uuid
 from sqlalchemy import Column, DateTime, ForeignKey, String
 from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 
@@ -18,3 +19,5 @@ class ScheduledTask(Base):
     status = Column(String, nullable=False, default="pending")  # pending, running, complete, failed
     arq_job_id = Column(String, nullable=True)
     result = Column(JSONB, nullable=True)
+
+    organization = relationship("Organization", back_populates="scheduled_tasks")

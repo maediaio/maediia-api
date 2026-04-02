@@ -4,10 +4,10 @@ from sqlalchemy import Boolean, Column, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from app.db.base import Base
+from app.db.base import ReadOnlyBase
 
 
-class SmsLog(Base):
+class SmsLog(ReadOnlyBase):
     __tablename__ = "sms_logs"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -20,4 +20,5 @@ class SmsLog(Base):
     status = Column(String, nullable=False, default="queued")  # queued, sent, delivered, failed
     opt_out_checked = Column(Boolean, nullable=False, default=False)
 
+    organization = relationship("Organization", back_populates="sms_logs")
     call_log = relationship("CallLog", back_populates="sms_logs")

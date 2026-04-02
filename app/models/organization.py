@@ -24,3 +24,5 @@ class Organization(Base):
     appointments = relationship("Appointment", back_populates="organization")
     business_lines = relationship("BusinessLine", back_populates="organization")
     api_keys = relationship("ApiKey", back_populates="organization")
+    sms_logs = relationship("SmsLog", back_populates="organization")
+    scheduled_tasks = relationship("ScheduledTask", back_populates="organization")
