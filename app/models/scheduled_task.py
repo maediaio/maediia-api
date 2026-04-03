@@ -20,4 +20,4 @@ class ScheduledTask(Base):
     arq_job_id = Column(String, nullable=True)
     result = Column(JSONB, nullable=True)
 
-    organization = relationship("Organization", back_populates="scheduled_tasks")
+    organization = relationship("Organization", backref="scheduled_tasks")

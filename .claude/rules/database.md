@@ -61,13 +61,21 @@ Never use JSON (use JSONB — it's indexed and faster).
 
 ## Relationships
 
-Always define back_populates on both sides:
+Use `backref` on the child model side for all relationships. Do NOT use `back_populates`.
 
-In Organization model:
-agents = relationship("Agent", back_populates="organization")
+This eliminates circular import issues — only the child model needs to import the parent.
 
-In Agent model:
-organization = relationship("Organization", back_populates="agents")
+CORRECT — in Agent model (child of Organization):
+organization = relationship("Organization", backref="agents")
+
+This automatically creates the `agents` relationship on Organization. No changes needed in Organization model.
+
+INCORRECT — never do this:
+# In Organization model:
+agents = relationship("Agent", back_populates="organization")  # ❌ Don't use back_populates
+
+# In Agent model:
+organization = relationship("Organization", back_populates="agents")  # ❌ Don't use back_populates
 
 ---
 

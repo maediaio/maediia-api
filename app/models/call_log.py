@@ -21,6 +21,6 @@ class CallLog(ReadOnlyBase):
     metadata_ = Column("metadata", JSONB, nullable=True)
     cost_cents = Column(Integer, nullable=True)
 
-    organization = relationship("Organization", back_populates="call_logs")
-    agent = relationship("Agent", back_populates="call_logs")
-    sms_logs = relationship("SmsLog", back_populates="call_log")
+    organization = relationship("Organization", backref="call_logs")
+    agent = relationship("Agent", backref="call_logs")
+    # Note: backref defined on SmsLog side

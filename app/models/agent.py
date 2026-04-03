@@ -21,6 +21,6 @@ class Agent(Base):
     greeting = Column(Text, nullable=True)
     is_active = Column(Boolean, nullable=False, default=True)
 
-    organization = relationship("Organization", back_populates="agents")
+    organization = relationship("Organization", backref="agents")
     phone_numbers = relationship("PhoneNumber", back_populates="agent")
-    call_logs = relationship("CallLog", back_populates="agent")
+    # Note: backref defined on CallLog side

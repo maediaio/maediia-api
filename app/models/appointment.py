@@ -17,6 +17,6 @@ class Appointment(Base):
     scheduled_at = Column(DateTime(timezone=True), nullable=False)
     status = Column(String, nullable=False, default="scheduled")  # scheduled, confirmed, cancelled, completed
 
-    organization = relationship("Organization", back_populates="appointments")
+    organization = relationship("Organization", backref="appointments")
     lead = relationship("Lead", back_populates="appointments")
     service = relationship("Service", back_populates="appointments")

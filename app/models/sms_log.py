@@ -20,5 +20,5 @@ class SmsLog(ReadOnlyBase):
     status = Column(String, nullable=False, default="queued")  # queued, sent, delivered, failed
     opt_out_checked = Column(Boolean, nullable=False, default=False)
 
-    organization = relationship("Organization", back_populates="sms_logs")
-    call_log = relationship("CallLog", back_populates="sms_logs")
+    organization = relationship("Organization", backref="sms_logs")
+    call_log = relationship("CallLog", backref="sms_logs")

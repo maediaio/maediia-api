@@ -52,6 +52,7 @@
 - TELNYX_SIP_CONNECTION_ID env var needed for voice number provisioning — set once in Telnyx dashboard, referenced per purchase
 - deploy/deploy.sh --setup handles full first-deploy (packages, venv, nginx, certbot, supervisor, migrations). Plain run handles redeployment.
 - uvicorn runs with 4 workers + uvloop + proxy-headers behind Nginx on 127.0.0.1:8000
+- SQLAlchemy relationships use `backref` on the child side instead of `back_populates` on both sides — eliminates circular import issues, only child model needs to import parent. Changed during Phase 0 deployment (2026-04-03) by Flux.
 
 ## Issues
 

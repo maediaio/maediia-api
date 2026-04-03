@@ -16,4 +16,4 @@ class ApiKey(Base):
     key_hash = Column(String, nullable=False, unique=True)  # SHA256 of raw key
     is_active = Column(Boolean, nullable=False, default=True)
 
-    organization = relationship("Organization", back_populates="api_keys")
+    organization = relationship("Organization", backref="api_keys")

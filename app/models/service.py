@@ -17,5 +17,5 @@ class Service(Base):
     price_cents = Column(Integer, nullable=True)
     is_active = Column(Boolean, nullable=False, default=True)
 
-    organization = relationship("Organization", back_populates="services")
+    organization = relationship("Organization", backref="services")
     appointments = relationship("Appointment", back_populates="service")

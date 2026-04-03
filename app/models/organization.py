@@ -18,14 +18,4 @@ class Organization(Base):
     stripe_customer_id = Column(String, nullable=True)
     stripe_subscription_id = Column(String, nullable=True)
 
-    users = relationship("User", back_populates="organization")
-    agents = relationship("Agent", back_populates="organization")
-    call_logs = relationship("CallLog", back_populates="organization")
-    leads = relationship("Lead", back_populates="organization")
-    services = relationship("Service", back_populates="organization")
-    appointments = relationship("Appointment", back_populates="organization")
-    business_lines = relationship("BusinessLine", back_populates="organization")
-    api_keys = relationship("ApiKey", back_populates="organization")
-    sms_logs = relationship("SmsLog", back_populates="organization")
-    scheduled_tasks = relationship("ScheduledTask", back_populates="organization")
-    voicemails = relationship("Voicemail", back_populates="organization")
+    # Note: All backrefs defined on child model sides to avoid circular imports

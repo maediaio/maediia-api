@@ -20,5 +20,5 @@ class Voicemail(ReadOnlyBase):
     is_read = Column(Boolean, nullable=False, default=False)
     called_at = Column(DateTime(timezone=True), nullable=True)
 
-    business_line = relationship("BusinessLine", back_populates="voicemails")
-    organization = relationship("Organization", back_populates="voicemails")
+    business_line = relationship("BusinessLine", backref="voicemails")
+    organization = relationship("Organization", backref="voicemails")

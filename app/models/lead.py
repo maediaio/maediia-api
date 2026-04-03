@@ -19,5 +19,5 @@ class Lead(Base):
     status = Column(String, nullable=True)
     sms_opt_out = Column(Boolean, nullable=False, default=False)  # REQUIRED for compliance
 
-    organization = relationship("Organization", back_populates="leads")
+    organization = relationship("Organization", backref="leads")
     appointments = relationship("Appointment", back_populates="lead")

@@ -16,4 +16,4 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     role = Column(String, nullable=False, default="client")  # admin, sales, cold_caller, client
 
-    organization = relationship("Organization", back_populates="users")
+    organization = relationship("Organization", backref="users")

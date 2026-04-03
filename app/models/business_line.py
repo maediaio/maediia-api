@@ -2,7 +2,7 @@
 import uuid
 from sqlalchemy import Boolean, Column, ForeignKey, String
 from sqlalchemy.dialects.postgresql import JSONB, UUID
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from app.db.base import Base
 
@@ -21,5 +21,5 @@ class BusinessLine(Base):
     voicemail_enabled = Column(Boolean, nullable=False, default=True)
     spam_filter_enabled = Column(Boolean, nullable=False, default=True)
 
-    organization = relationship("Organization", back_populates="business_lines")
-    voicemails = relationship("Voicemail", back_populates="business_line")
+    organization = relationship("Organization", backref="business_lines")
+    # Note: backref defined on Voicemail side to avoid circular import
